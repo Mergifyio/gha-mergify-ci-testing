@@ -1,0 +1,13 @@
+scopes:
+  github:
+    includes:
+      - .github/**/*
+  action:
+    includes:
+      - action.yml
+  other:
+    includes:
+      - "**/*"
+    excludes:
+      - action.yml
+      - .github/**/*
