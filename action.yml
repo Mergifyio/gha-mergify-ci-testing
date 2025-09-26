@@ -1,0 +1,26 @@
+name: 'mergify-ci-scopes'
+description: 'Mergify: return the scopes of a pull request depending on the changed files'
+branding:
+  icon: arrow-up
+  color: 'blue'
+outputs:
+  scopes:
+    description: JSON array with names of all scopes matching any of changed files
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python 🔧
+      uses: actions/setup-python@v6.0.0
+      with:
+        python-version: "3.13"
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        # pip install mergify-cli
+        pip install -e git+https://github.com/Mergifyio/mergify-cli@devs/sileht/test-bin#egg=mergify-cli
+
+    - shell: bash
+      run: |
+        set -x -e
+        mergify ci scopes
