@@ -4,7 +4,7 @@ A GitHub Action that retrieves the correct base SHA for CI when using Mergify me
 
 ## Problem
 
-When using Mergify's merge queue, the merge queue creates temporary pull requests with branches named `mergify/merge-queue/*`. These temporary PRs have a different base than the original PR, which causes issues with change detection tools like `dorny/paths-filter`.
+When using Mergify's merge queue, the merge queue creates temporary pull requests with branches named `mergify/merge-queue/*`. These temporary PRs have a different base than the original PR, which causes issues with change detection tools like [`dorny/paths-filter`](https://github.com/dorny/paths-filter).
 
 Without this action, CI workflows that rely on detecting changed files will compare against the wrong base commit, potentially:
 - Running unnecessary tests on unchanged code
