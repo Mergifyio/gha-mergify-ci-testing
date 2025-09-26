@@ -1,6 +1,7 @@
 name: Continuous Integration
 
 on:
+  push:
   pull_request:
     branches:
       - main
@@ -39,9 +40,5 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v5.0.0
-      - name: Try copying labels
+      - name: Trying action
         uses: ./.
-        with:
-          labels: docker
-          additional-labels: merge-queue-pr
-          token: ${{ github.token }}
