@@ -1,0 +1,26 @@
+name: 'mergify-ci-scopes'
+description: 'Mergify: return the scopes of a pull request depending on the changed files'
+branding:
+  icon: arrow-up
+  color: 'blue'
+outputs:
+  checking_base_sha:
+    description: 'The base SHA that CI should use to detect changed files'
+    value: ${{ steps.extract-base-sha.outputs.checking_base_sha }}
+runs:
+  using: "composite"
+  steps:
+    - name: Setup Python 🔧
+      uses: actions/setup-python@v6.0.0
+      with:
+        python-version: "3.13"
+
+    - name: Install dependencies
+      shell: bash
+      run: |
+        pip install mergify-cli
+
+    - shell: bash
+      run: |
+        set -x -e
+        mergify ci scopes
