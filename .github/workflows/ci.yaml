@@ -1,0 +1,52 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - devs/**
+
+jobs:
+  linters:
+    timeout-minutes: 20
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v5.0.0
+
+      - name: Actionlint
+        uses: docker://rhysd/actionlint:latest
+        with:
+          args: -color
+
+  action:
+    runs-on: ubuntu-24.04
+    outputs:
+      scopes: ${{ steps.action.outputs.scopes }}
+      everything: ${{ fromJSON(steps.action.outputs.scopes).everything }}
+      action: ${{ fromJSON(steps.action.outputs.scopes).action }}
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v5.0.0
+
+      - name: Trying action
+        id: action
+        uses: ./
+  tests:
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    needs:
+      - action
+    steps:
+      - name: Check scopes
+        env:
+          SCOPES: ${{ needs.action.outputs.scopes }}
+          EVERYTHING: ${{ needs.action.outputs.everything }}
+          EVERYTHING_BOOL: ${{ needs.action.outputs.everything == 'true' }}
+        run: |
+          echo "SCOPES: $SCOPES"
+          test "$EVERYTHING" == "true"
+          test "$EVERYTHING_BOOL" == "true"
