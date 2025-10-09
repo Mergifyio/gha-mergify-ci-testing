@@ -25,4 +25,5 @@ runs:
         set -x -e
         set
         cat $GITHUB_EVENT_PATH
-        mergify ci scopes
+        mergify ci scopes --write $RUNNER_TEMP/mergify-scopes.json
+        mergify ci scopes-send --file $RUNNER_TEMP/mergify-scopes.json
