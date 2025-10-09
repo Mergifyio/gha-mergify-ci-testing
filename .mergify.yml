@@ -86,7 +86,7 @@ pull_request_rules:
       - "#changes-requested-reviews-by=0"
       - review-requested!=@devs
       - not:
-         or: *DefaultReviewCond
+          or: *DefaultReviewCond
     actions:
       request_reviews:
         teams:
