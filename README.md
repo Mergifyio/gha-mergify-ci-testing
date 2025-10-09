@@ -1,5 +1,6 @@
 # gha-mergify-ci-scopes
 
+
 A GitHub Action that detects which parts of your monorepo are affected by a pull request, so you can run only the relevant tests.
 
 ## The Problem
