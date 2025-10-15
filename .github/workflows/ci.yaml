@@ -22,16 +22,31 @@ jobs:
         with:
           args: -color
 
-  actions:
+  action:
     runs-on: ubuntu-24.04
+    outputs:
+      scopes: ${{ steps.action.outputs.scopes }}
+      everything: ${{ fromJSON(steps.action.outputs.scopes).everything }}
+      action: ${{ fromJSON(steps.action.outputs.scopes).action }}
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v5.0.0
+
       - name: Trying action
         id: action
-        uses: ./.
-      - name: Show scopes
+        uses: ./
+  tests:
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    needs:
+      - action
+    steps:
+      - name: Check scopes
         env:
-          SCOPES: ${{ steps.action.outputs.scopes }}
+          SCOPES: ${{ needs.action.outputs.scopes }}
+          EVERYTHING: ${{ needs.action.outputs.everything }}
+          EVERYTHING_BOOL: ${{ needs.action.outputs.everything == 'true' }}
         run: |
-          echo "$SCOPES"
+          echo "SCOPES: $SCOPES"
+          test "$EVERYTHING" == "true"
+          test "$EVERYTHING_BOOL" == "true"

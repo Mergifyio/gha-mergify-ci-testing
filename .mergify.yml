@@ -18,8 +18,8 @@ shared:
     merge_method: squash
   CheckRuns: &CheckRuns
     - check-success=linters
-    - check-success=actions
-    - check-success=test
+    - check-success=action
+    - check-success=tests
 
 scopes:
   source:
@@ -30,12 +30,7 @@ scopes:
       action:
         includes:
           - action.yml
-      other:
-        includes:
-          - "**/*"
-        excludes:
-          - action.yml
-          - .github/**/*
+      everything: {}
 
 queue_rules:
   - name: default

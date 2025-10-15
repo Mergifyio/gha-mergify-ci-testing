@@ -26,16 +26,18 @@ When running in a merge queue context, the action automatically adds a `merge-qu
 
 ### 1. Configure Scopes
 
-Create a `.mergify-ci.yml` file in your repository root:
+Create a `.mergify.yml` file in your repository root:
 
 ```yaml
 scopes:
-  python:
-    includes:
-      - **/*.py
-  js:
-    includes:
-      - **/*.js
+  source:
+    files:
+      python:
+        includes:
+          - **/*.py
+      js:
+        includes:
+          - **/*.js
 ```
 
 ### 2. Set Up Your Workflow
@@ -95,7 +97,7 @@ jobs:
 
 ## Outputs
 
-Each scope defined in `.mergify-ci.yml` becomes an output:
+Each scope defined in `.mergify.yml` becomes an output:
 - `scopes.<scope-name>`: Returns `true` if the scope is affected, `false` otherwise
 - `scopes.merge-queue`: Automatically set to `true` when running in a merge queue
 
